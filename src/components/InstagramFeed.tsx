@@ -10,12 +10,36 @@ const PERFIL = "https://instagram.com/pedrosantt_oficial";
 // Prévia real do feed — não é o site inteiro, é o convite. O resto tá rolando
 // agora no Instagram. Trocar por posts mais recentes sempre que o Pedro quiser.
 const fotos = [
-  { src: fotoGrupo, alt: "Turma reunida nas motos, na praia" },
-  { src: fotoLondres, alt: "Pedro em Londres, comprando comida de rua" },
-  { src: fotoBarco, alt: "Pedro e um amigo num barco, mar azul-turquesa" },
-  { src: fotoLhamas, alt: "Pedro com lhamas no Peru" },
-  { src: fotoMoto, alt: "Pôr do sol com avião cruzando o céu" },
-  { src: fotoLive, alt: "Pedro gravando uma live em estúdio" },
+  {
+    src: fotoGrupo,
+    alt: "Turma reunida nas motos, na praia",
+    href: "https://www.instagram.com/p/DXj7uzOkpZs/",
+  },
+  {
+    src: fotoLondres,
+    alt: "Pedro em Londres, comprando comida de rua",
+    href: "https://www.instagram.com/p/DYR_5cboYK8/",
+  },
+  {
+    src: fotoBarco,
+    alt: "Pedro e um amigo num barco, mar azul-turquesa",
+    href: "https://www.instagram.com/p/Db4m2N0DhXV/?img_index=1",
+  },
+  {
+    src: fotoLhamas,
+    alt: "Pedro com lhamas no Peru",
+    href: "https://www.instagram.com/p/DbZKCt_JUQf/",
+  },
+  {
+    src: fotoMoto,
+    alt: "Pôr do sol com avião cruzando o céu",
+    href: "https://www.instagram.com/p/DWhtkMjCUHd/",
+  },
+  {
+    src: fotoLive,
+    alt: "Pedro gravando uma live em estúdio",
+    href: "https://www.instagram.com/p/DHd7h3vxyF3/",
+  },
 ];
 
 export default function InstagramFeed() {
@@ -25,7 +49,7 @@ export default function InstagramFeed() {
         {fotos.map((foto) => (
           <a
             key={foto.src}
-            href={PERFIL}
+            href={foto.href}
             target="_blank"
             rel="noopener noreferrer"
             className="reel"
