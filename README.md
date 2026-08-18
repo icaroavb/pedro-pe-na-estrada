@@ -26,8 +26,10 @@ npm run preview
 O deploy é automático via GitHub Actions ([.github/workflows/deploy.yml](.github/workflows/deploy.yml)):
 todo push na branch `main` builda o projeto e publica em GitHub Pages.
 
-Passo único manual (uma vez só): no repositório do GitHub, ir em
-**Settings → Pages → Build and deployment → Source** e selecionar **GitHub Actions**.
+> **Passo obrigatório, uma vez só:** em **Settings → Pages → Build and deployment →
+> Source**, selecionar **GitHub Actions** (não "Deploy from a branch"). Sem isso o job
+> de build passa mas o de deploy falha com `HttpError: Not Found` / status 404 —
+> o Pages precisa estar habilitado antes do primeiro deploy.
 
 O site fica em `https://<usuario>.github.io/pedro-pe-na-estrada/`. O `base` já está
 configurado em [vite.config.ts](vite.config.ts) e as rotas usam `HashRouter`
