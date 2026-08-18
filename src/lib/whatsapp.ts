@@ -1,5 +1,5 @@
-// TODO: Pedro deve substituir pelo número real de WhatsApp (formato: código do país + DDD + número, só dígitos)
-export const WHATSAPP_NUMBER = "5511999999999";
+// WhatsApp do Pedro: +55 62 9129-3459 → 55 (país) + 62 (DDD) + 9 + 91293459
+export const WHATSAPP_NUMBER = "5562991293459";
 
 export function buildWhatsAppLink(message: string): string {
   const encoded = encodeURIComponent(message);

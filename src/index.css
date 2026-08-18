@@ -124,17 +124,21 @@ main {
   flex: 1;
 }
 
+/* contêiner: em telas largas o conteúdo para de se espalhar e fica ancorado.
+   O padding lateral vira margem automática além de --shell. */
 .bleed {
-  padding-inline: clamp(1.25rem, 5vw, 5rem);
+  --shell: 82rem;
+  padding-inline: max(clamp(1.25rem, 5vw, 4rem), calc((100% - var(--shell)) / 2));
 }
 
-/* ritmo vertical deliberadamente irregular, não um padding uniforme */
+/* ritmo vertical irregular, mas contido — 176px de padding abria buracos
+   grandes demais entre as seções em telas de notebook. */
 .beat-tight {
-  padding-block: clamp(3rem, 7vw, 5rem);
+  padding-block: clamp(2.75rem, 5vw, 4rem);
 }
 
 .beat-open {
-  padding-block: clamp(5rem, 14vw, 11rem);
+  padding-block: clamp(4rem, 8vw, 6.5rem);
 }
 
 .rule-top {
@@ -180,13 +184,15 @@ main {
 
 /* ---------- header sobreposto ---------- */
 .site-header {
+  --shell: 82rem;
   position: absolute;
   inset: 0 0 auto;
   z-index: 40;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 1.5rem clamp(1.25rem, 5vw, 5rem);
+  padding-block: 1.5rem;
+  padding-inline: max(clamp(1.25rem, 5vw, 4rem), calc((100% - var(--shell)) / 2));
   mix-blend-mode: difference;
 }
 
@@ -239,7 +245,7 @@ main {
   display: grid;
   align-content: end;
   gap: 2rem;
-  padding-block: 7rem 8rem;
+  padding-block: 7rem 5rem;
   overflow: hidden;
 }
 
@@ -247,9 +253,9 @@ main {
   position: absolute;
   inset: 0;
   background-size: cover;
-  background-position: center 30%;
-  /* frame de Reel em 360x640: leve escala + brilho baixo escondem a compressão */
-  filter: brightness(0.55) saturate(1.05);
+  background-position: center 22%;
+  /* frame de Reel em 360x640: brilho baixo esconde a compressão */
+  filter: brightness(0.62) saturate(1.05);
 }
 
 .hero::before {
@@ -259,10 +265,35 @@ main {
   z-index: 1;
   background: linear-gradient(
     180deg,
-    rgba(16, 13, 10, 0.75) 0%,
-    rgba(16, 13, 10, 0.25) 38%,
-    rgba(16, 13, 10, 0.92) 88%
+    rgba(16, 13, 10, 0.7) 0%,
+    rgba(16, 13, 10, 0.2) 30%,
+    rgba(16, 13, 10, 0.9) 82%
   );
+}
+
+/* em telas largas a foto vertical vai pra direita e o texto respira à esquerda,
+   sem o rosto ficar cortado atrás do título */
+@media (min-width: 1000px) {
+  .hero-plate {
+    left: auto;
+    width: 52%;
+    background-position: center 18%;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 22%);
+    mask-image: linear-gradient(90deg, transparent, #000 22%);
+  }
+
+  .hero::before {
+    background: linear-gradient(
+      90deg,
+      rgba(16, 13, 10, 0.96) 34%,
+      rgba(16, 13, 10, 0.55) 62%,
+      rgba(16, 13, 10, 0.35) 100%
+    );
+  }
+
+  .hero-body {
+    max-width: 46rem;
+  }
 }
 
 .hero-body {
@@ -343,14 +374,19 @@ main {
 .sec-head {
   display: grid;
   gap: 0.9rem;
-  margin-bottom: clamp(2rem, 5vw, 3.5rem);
-  max-width: 52rem;
+  margin-bottom: clamp(1.75rem, 4vw, 3rem);
+  max-width: 60rem;
+}
+
+/* evita quebras feias de uma palavra órfã nos títulos condensados */
+.sec-head h2 {
+  text-wrap: balance;
 }
 
 .sec-head p {
   margin: 0;
   color: var(--ink-dim);
-  max-width: 52ch;
+  max-width: 56ch;
 }
 
 /* ---------- COMO FUNCIONA: lista editorial, sem cards ---------- */
@@ -400,14 +436,18 @@ main {
 }
 
 /* ---------- trilho horizontal de fitas 9:16 (feed de Reels) ---------- */
+/* o trilho sangra até a borda da janela, mas a primeira fita continua alinhada
+   ao eixo do texto — o padding devolve exatamente o que a margem negativa tirou */
 .rail {
+  --gutter: max(clamp(1.25rem, 5vw, 4rem), calc((100vw - var(--shell, 82rem)) / 2));
   display: flex;
   gap: 0.75rem;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   padding-bottom: 1.25rem;
-  margin-inline: calc(clamp(1.25rem, 5vw, 5rem) * -1);
-  padding-inline: clamp(1.25rem, 5vw, 5rem);
+  margin-inline: calc(var(--gutter) * -1);
+  padding-inline: var(--gutter);
+  scroll-padding-inline-start: var(--gutter);
   scrollbar-width: thin;
   scrollbar-color: var(--rule) transparent;
 }
@@ -529,14 +569,17 @@ main {
 }
 
 @media (min-width: 900px) {
+  /* a coluna de texto era 1fr (1113px em telas largas) para linhas de ~480px:
+     limitar a coluna mantém o bloco coeso ao lado da foto sticky */
   .series-scene {
-    grid-template-columns: var(--reel-w) 1fr;
-    gap: 4rem;
+    grid-template-columns: var(--reel-w) minmax(0, 44rem);
+    gap: clamp(2.5rem, 5vw, 4.5rem);
+    justify-content: start;
   }
 
   .series-sticky {
     position: sticky;
-    top: 18vh;
+    top: 15vh;
   }
 }
 
@@ -557,6 +600,7 @@ main {
 
 .couple-copy {
   display: grid;
+  justify-items: start;
   gap: 1.1rem;
 }
 
@@ -576,9 +620,12 @@ main {
 }
 
 @media (min-width: 900px) {
+  /* colunas dimensionadas pela foto real (384px), não 1fr 1fr — senão sobra
+     um vão morto de ~330px ao lado da imagem */
   .couple {
-    grid-template-columns: 1fr 1fr;
+    grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
     gap: 0;
+    align-items: center;
   }
 
   .couple-still {
@@ -588,9 +635,13 @@ main {
   /* sobreposição: o texto invade a foto */
   .couple-copy {
     margin-left: -4rem;
-    padding: 2.5rem;
+    padding: 2.5rem 0 2.5rem 3rem;
     background: var(--bg);
     z-index: 1;
+  }
+
+  .couple-copy p {
+    max-width: 46ch;
   }
 }
 
