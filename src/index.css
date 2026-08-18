@@ -569,17 +569,33 @@ main {
 }
 
 @media (min-width: 900px) {
-  /* a coluna de texto era 1fr (1113px em telas largas) para linhas de ~480px:
-     limitar a coluna mantém o bloco coeso ao lado da foto sticky */
+  /* a foto sticky cresce (18rem nativos viravam 15.5rem esquecidos no canto);
+     o texto ganha mais peso tipográfico para preencher a composição em vez
+     de ficar pequeno numa coluna estreita cercada de vazio */
   .series-scene {
-    grid-template-columns: var(--reel-w) minmax(0, 44rem);
-    gap: clamp(2.5rem, 5vw, 4.5rem);
+    grid-template-columns: minmax(16rem, 22rem) minmax(0, 46rem);
+    gap: clamp(3rem, 6vw, 5.5rem);
     justify-content: start;
+    align-items: start;
   }
 
   .series-sticky {
     position: sticky;
-    top: 15vh;
+    top: 12vh;
+    width: 100%;
+  }
+
+  .series-still {
+    max-width: none;
+    width: 100%;
+  }
+
+  .series-ep h3 {
+    font-size: clamp(2.2rem, 4vw, 3.6rem);
+  }
+
+  .series-ep p {
+    font-size: 1.1rem;
   }
 }
 
@@ -620,28 +636,37 @@ main {
 }
 
 @media (min-width: 900px) {
-  /* colunas dimensionadas pela foto real (384px), não 1fr 1fr — senão sobra
-     um vão morto de ~330px ao lado da imagem */
+  /* a foto vertical vira protagonista da composição — alta, não larga —
+     em vez de ficar pequena "cabendo" ao lado de uma coluna de texto */
   .couple {
-    grid-template-columns: minmax(18rem, 24rem) minmax(0, 1fr);
+    grid-template-columns: minmax(20rem, 30%) minmax(0, 1fr);
     gap: 0;
-    align-items: center;
+    align-items: stretch;
+    min-height: 34rem;
   }
 
   .couple-still {
-    aspect-ratio: 3 / 4;
+    max-width: none;
+    aspect-ratio: auto;
+    height: 100%;
   }
 
   /* sobreposição: o texto invade a foto */
   .couple-copy {
     margin-left: -4rem;
-    padding: 2.5rem 0 2.5rem 3rem;
+    padding: 2.5rem 3rem 2.5rem 5rem;
     background: var(--bg);
     z-index: 1;
+    align-content: center;
+  }
+
+  .couple-copy h2 {
+    font-size: clamp(2.2rem, 3.2vw, 3.4rem);
   }
 
   .couple-copy p {
-    max-width: 46ch;
+    max-width: 42ch;
+    font-size: 1.05rem;
   }
 }
 
